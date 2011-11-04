@@ -17,6 +17,8 @@
 import gettext
 import os
 import subprocess
+import sys
+import time
 
 from setuptools import setup, find_packages
 from setuptools.command.sdist import sdist
@@ -35,6 +37,25 @@ except ImportError:
     print "  https://launchpad.net/python-distutils-extra >= 2.18"
 
 gettext.install('glance', unicode=1)
+
+TOPDIR = os.path.abspath(os.path.dirname(__file__))
+VFILE  = os.path.join(TOPDIR, 'glance', '__pistonversion__.py')
+
+args = filter(lambda x: x[0] != '-', sys.argv)
+command = args[1] if len(args) > 1 else ''
+
+if command == 'sdist':
+    PISTON_VERSION = os.environ['PISTON_VERSION']
+    with file(VFILE, 'w') as f:
+        f.write('''#!/usr/bin/env python\nVERSION = '%s'\n''' % PISTON_VERSION)
+elif command == 'develop':
+    PISTON_VERSION = time.strftime('9999.0.%Y%m%d%H%M%S', time.localtime())
+    with file(VFILE, 'w') as f:
+        f.write('''#!/usr/bin/env python\nVERSION = '%s'\n''' % PISTON_VERSION)
+elif command is None:
+    pass
+else:
+    assert os.path.exists(VFILE), 'version.py does not exist, please set PISTON_VERSION (or run make_version.py for dev purposes)'
 
 from glance import version
 
