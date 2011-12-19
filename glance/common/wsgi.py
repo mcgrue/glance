@@ -28,7 +28,6 @@ import datetime
 
 import eventlet
 import eventlet.wsgi
-eventlet.patcher.monkey_patch(all=False, socket=True)
 import routes
 import routes.middleware
 import webob.dec
@@ -50,6 +49,7 @@ class WritableLogger(object):
 
 def run_server(application, port):
     """Run a WSGI server with the given application."""
+    eventlet.patcher.monkey_patch(all=False, socket=True)
     sock = eventlet.listen(('0.0.0.0', port))
     eventlet.wsgi.server(sock, application)
 
@@ -62,6 +62,7 @@ class Server(object):
 
     def start(self, application, port, host='0.0.0.0', backlog=128):
         """Run a WSGI server with the given application."""
+        eventlet.patcher.monkey_patch(all=False, socket=True)
         socket = eventlet.listen((host, port), backlog=backlog)
         self.pool.spawn_n(self._run, application, socket)
 
