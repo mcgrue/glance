@@ -44,7 +44,7 @@ class VersionsTest(unittest.TestCase):
         self.stubs.UnsetAll()
 
     def test_get_version_list(self):
-        req = webob.Request.blank('/')
+        req = webob.Request.blank('https://1.2.3.4:56/blarg')
         req.accept = "application/json"
         options = {'bind_host': '0.0.0.0',
                    'bind_port': 9292}
@@ -59,14 +59,14 @@ class VersionsTest(unittest.TestCase):
                 "links": [
                     {
                         "rel": "self",
-                        "href": "http://0.0.0.0:9292/v1/"}]},
+                        "href": "https://1.2.3.4:56/v1/"}]},
             {
                 "id": "v1.0",
                 "status": "SUPPORTED",
                 "links": [
                     {
                         "rel": "self",
-                        "href": "http://0.0.0.0:9292/v1/"}]}]
+                        "href": "https://1.2.3.4:56/v1/"}]}]
         self.assertEqual(results, expected)
 
     def test_client_handles_versions(self):

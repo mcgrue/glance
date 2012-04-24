@@ -46,14 +46,14 @@ class Controller(object):
                 "links": [
                     {
                         "rel": "self",
-                        "href": self.get_href()}]},
+                        "href": self.get_href(req)}]},
             {
                 "id": "v1.0",
                 "status": "SUPPORTED",
                 "links": [
                     {
                         "rel": "self",
-                        "href": self.get_href()}]}]
+                        "href": self.get_href(req)}]}]
 
         body = json.dumps(dict(versions=version_objs))
 
@@ -64,9 +64,8 @@ class Controller(object):
 
         return response
 
-    def get_href(self):
-        return "http://%s:%s/v1/" % (self.options['bind_host'],
-                                      self.options['bind_port'])
+    def get_href(self, req):
+        return req.application_url + '/v1/'
 
 
 def app_factory(global_conf, **local_conf):
