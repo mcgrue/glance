@@ -119,6 +119,11 @@ try:
 except:
     pass
 
+def load_pip_requires():
+    with open('./tools/pip-requires', 'r') as f:
+        return [x.strip() for x in f.readlines()]
+
+pip_requires = load_pip_requires()
 
 setup(
     name='glance',
@@ -140,6 +145,7 @@ setup(
         'Programming Language :: Python :: 2.6',
         'Environment :: No Input/Output (Daemon)',
     ],
+    install_requires=pip_requires,
     scripts=['bin/glance',
              'bin/glance-api',
              'bin/glance-cache-prefetcher',

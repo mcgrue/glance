@@ -9,7 +9,7 @@ wsgiref
 argparse
 boto
 swift
--f http://pymox.googlecode.com/files/mox-0.5.0.tar.gz
+mox==0.5.3
 sqlalchemy-migrate>=0.6,<0.7
 bzr
 httplib2
